@@ -1,6 +1,6 @@
 import java.awt.*;
-import javax.swing.*;
 import java.util.List;
+import javax.swing.*;
 
 public class AdminDashboard extends JFrame {
     private final CardLayout cardLayout;
@@ -18,10 +18,16 @@ public class AdminDashboard extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // Header panel with welcome label and profile button
+        JPanel headerPanel = new JPanel(new BorderLayout());
         JLabel welcomeLabel = new JLabel("Welcome to the admin dashboard", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        headerPanel.add(welcomeLabel);
+        headerPanel.add(welcomeLabel, BorderLayout.CENTER);
+
+        JButton profileButton = new JButton("Profile");
+        profileButton.addActionListener(e -> showAdminProfile());
+        headerPanel.add(profileButton, BorderLayout.EAST);
+
         add(headerPanel, BorderLayout.NORTH);
 
         mainPanel.add(createWelcomePanel(), "Welcome");
@@ -51,6 +57,34 @@ public class AdminDashboard extends JFrame {
         removeListingButton.addActionListener(e -> controller.handleAction("Remove Listing"));
 
         cardLayout.show(mainPanel, "Welcome");
+    }
+
+    private void showAdminProfile() {
+        JFrame profileFrame = new JFrame("Admin Profile");
+        profileFrame.setSize(300, 200);
+        profileFrame.setLayout(new BorderLayout());
+
+        // Assuming admin details are fetched here. Replace with actual implementation if needed.
+        String adminDetails = "Admin ID: 1\nUsername: admin\nEmail: admin@example.com\n";
+
+        JTextArea detailsTextArea = new JTextArea(adminDetails);
+        detailsTextArea.setEditable(false);
+        profileFrame.add(new JScrollPane(detailsTextArea), BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(e -> logout());
+
+        buttonPanel.add(logoutButton);
+        profileFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+        profileFrame.setLocationRelativeTo(this);
+        profileFrame.setVisible(true);
+    }
+
+    private void logout() {
+        // Perform logout actions here. For now, just close the application.
+        System.exit(0);
     }
 
     public void showPendingList() {
